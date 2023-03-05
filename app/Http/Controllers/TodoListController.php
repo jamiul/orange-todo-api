@@ -30,16 +30,6 @@ class TodoListController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreTodoListRequest  $request
@@ -59,21 +49,10 @@ class TodoListController extends Controller
      * @param  \App\Models\TodoList  $todoList
      * @return \Illuminate\Http\Response
      */
-    public function show(TodoList $todoList)
+    public function show(TodoList $todoList): JsonResponse
     {
         $todo = $this->todoListRepository->getTodoListById($todoList);
-        return response($todo);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TodoList  $todoList
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TodoList $todoList)
-    {
-        //
+        return response()->json($todo);
     }
 
     /**
@@ -83,11 +62,11 @@ class TodoListController extends Controller
      * @param  \App\Models\TodoList  $todoList
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTodoListRequest $request, TodoList $todoList)
+    public function update(UpdateTodoListRequest $request, TodoList $todoList): Response
     {
         $todoList = $this->todoListRepository->updateTodoList($todoList, $request->all());
 
-        return response($todoList);
+        return response()->json($todoList);
     }
 
     /**
@@ -99,6 +78,7 @@ class TodoListController extends Controller
     public function destroy(TodoList $todoList): Response
     {
         $todoList = $this->todoListRepository->deleteTodoList($todoList);
-        return response('', Response::HTTP_NO_CONTENT);
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

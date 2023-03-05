@@ -14,7 +14,7 @@ class TodoListRepository implements TodoListRepositoryInterface
 
     public function getTodoListById($todoListId)
     {
-        return TodoList::findOrFail($todoListId);
+        return $todoListId;
     }
 
     public function createTodoList(array $todoList)
@@ -23,10 +23,10 @@ class TodoListRepository implements TodoListRepositoryInterface
     }
     public function updateTodoList($todoListId, array $newTodoList)
     {
-        return TodoList::whereId($todoListId)->update($newTodoList);
+        return $todoListId->update($newTodoList);
     }
     public function deleteTodoList($todoListId)
     {
-        return TodoList::destroy($todoListId);
+        return $todoListId->delete();
     }
 }
