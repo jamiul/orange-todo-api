@@ -7,7 +7,6 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreTodoListRequest;
 use App\Http\Requests\UpdateTodoListRequest;
 use App\Interfaces\TodoListRepositoryInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class TodoListController extends Controller
@@ -62,7 +61,7 @@ class TodoListController extends Controller
      * @param  \App\Models\TodoList  $todoList
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTodoListRequest $request, TodoList $todoList): Response
+    public function update(UpdateTodoListRequest $request, TodoList $todoList): JsonResponse
     {
         $todoList = $this->todoListRepository->updateTodoList($todoList, $request->all());
 
@@ -75,7 +74,7 @@ class TodoListController extends Controller
      * @param  \App\Models\TodoList  $todoList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TodoList $todoList): Response
+    public function destroy(TodoList $todoList): JsonResponse
     {
         $todoList = $this->todoListRepository->deleteTodoList($todoList);
 

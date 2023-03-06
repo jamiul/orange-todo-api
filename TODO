@@ -3,8 +3,8 @@ Todo:
   Please create a simple API that allows users to create, view, edit, and delete to-do lists. The API should be built using the Laravel framework and MySQL database.
 
   Requirements:
-    •	The API should allow users to create, view, edit, and delete to-do lists.
-    •	Each to-do list should have a name and a list of tasks associated with it.
+    ✔ •	The API should allow users to create, view, edit, and delete to-do lists.
+    ✔ •	Each to-do list should have a name and a list of tasks associated with it.
     •	Users should be able to add, view, edit, and delete tasks within each to-do list.
     •	The application should be designed and built following best practices and design patterns.
     •	The application should be well-documented and testable.
