@@ -19,7 +19,7 @@ class TaskTest extends TestCase
         $task = $this->createTask(['todo_list_id' => $todo->id]);
         $this->createTask(['todo_list_id' => 2]);
         // fetch all task
-        $response = $this->getJson(route('task.index', $todo->id))->assertOk()->json();
+        $response = $this->getJson(route('todo-list.task.index', $todo->id))->assertOk()->json();
 
         // then perform an action
         $this->assertEquals($task->title, $response[0]['title']);
@@ -31,7 +31,7 @@ class TaskTest extends TestCase
         $todo = $this->createTodo();
         $task = Task::factory()->make();
 
-        $this->postJson(route('task.store'), [
+        $this->postJson(route('todo-list.task.store', $todo->id), [
             'title' => $task->title,
             'todo_list_id' => $todo->id
         ])->assertCreated();

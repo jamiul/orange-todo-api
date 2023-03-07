@@ -3,71 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
+use App\Models\TodoList;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Interfaces\TaskRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends Controller
 {
+    private TaskRepositoryInterface $taskRepository;
+
+    public function __construct(TaskRepositoryInterface $taskRepository)
+    {
+        $this->taskRepository = $taskRepository;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index(TodoList $todoList): JsonResponse
     {
-        return response()->json(Task::all());
+        $todoListTasks = $this->taskRepository->getTasksOfATodoList($todoList);
+
+        return response()
+            ->json($todoListTasks);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request, TodoList $todoList)
     {
-        $task = Task::create($request->all());
+        $input = $request->all();
+        $task = $this->taskRepository->createTask($input, $todoList);
 
         return $task;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task): bool
     {
-        $task->update($request->all());
+        $data = $request->all();
 
-        return $task;
+        return $this->taskRepository
+            ->updateTask($data, $task);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task): JsonResponse
     {
-        $task->delete();
+        $this->taskRepository->deleteTask($task);
+
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
