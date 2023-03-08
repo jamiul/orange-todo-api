@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Auth;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RegistrationTest extends TestCase
 {
@@ -14,12 +15,12 @@ class RegistrationTest extends TestCase
     public function test_guest_can_register()
     {
         $this->postJson(route('user.register'), [
-            'name' => "Sarthak",
-            'email' => 'sarthak@bitfumes.com',
-            'password' => 'secret123',
-            'password_confirmation' => 'secret123',
+            'name' => "Jamiul",
+            'email' => 'Jamiul@yahoo.com',
+            'password' => 'mypass123',
+            'password_confirmation' => 'mypass123',
         ])->assertCreated();
 
-        $this->assertDatabaseHas('users', ['name' => 'Sarthak']);
+        $this->assertDatabaseHas('users', ['name' => 'Jamiul']);
     }
 }
