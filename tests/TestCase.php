@@ -27,11 +27,13 @@ abstract class TestCase extends BaseTestCase
         return $user;
     }
 
+    // create a new todo list
     public function createTodo($override = [])
     {
         return create(TodoList::class, $override);
     }
 
+    // create a new task associated with todo list
     public function createTask($override = [])
     {
         return create(Task::class, $override);

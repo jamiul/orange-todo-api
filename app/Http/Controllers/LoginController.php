@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
@@ -32,5 +34,16 @@ class LoginController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    // logout method
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        $cookie = Cookie::forget('jwt');
+
+        return response([
+            'message' => 'Success'
+        ])->withCookie($cookie);
     }
 }

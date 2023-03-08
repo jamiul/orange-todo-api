@@ -18,7 +18,10 @@ class TodoListTest extends TestCase
 
         // Given we have sign in user
         $this->signIn();
-        $this->todo = $this->createTodo(['name' => 'My Todo']);
+        $this->todo = $this->createTodo([
+            'name' => 'My Todo',
+            'user_id' => auth()->user()->id
+        ]);
     }
 
     public function test_an_authenticated_user_can_fetch_todo_list()
@@ -49,7 +52,7 @@ class TodoListTest extends TestCase
 
     public function test_an_authenticated_user_can_create_new_todo()
     {
-        $todo = TodoList::factory()->make();
+        $todo = make(TodoList::class);
 
         $response = $this->postJson(
             route('todo-list.store'),

@@ -7,9 +7,14 @@ use App\Models\TodoList;
 
 class TodoListRepository implements TodoListRepositoryInterface
 {
+
+    /**
+     * only authenticate user can fetch his/her todo list
+     */
     public function getAllTodoList()
     {
-        return TodoList::all();
+        $authUserTodoList = auth()->user()->todo_lists;
+        return $authUserTodoList;
     }
 
     public function getTodoListById($todoListId)
@@ -17,9 +22,12 @@ class TodoListRepository implements TodoListRepositoryInterface
         return $todoListId;
     }
 
+    /**
+     * authenticate user can create new todo list
+     */
     public function createTodoList(array $todoList)
     {
-        return TodoList::create($todoList);
+        return auth()->user()->todo_lists()->create($todoList);
     }
     public function updateTodoList($todoList, array $newTodoList): object
     {
