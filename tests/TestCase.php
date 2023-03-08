@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\Models\Task;
+use App\Models\User;
 use App\Models\TodoList;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -17,17 +19,27 @@ abstract class TestCase extends BaseTestCase
         $this->withoutExceptionHandling();
     }
 
-    public function createTodo($args = [])
+    protected function signIn($user = null)
     {
-        $todo = TodoList::factory()->create([
-            'name' => $args['name'] ?? 'My Todo'
-        ]);
+        $user = $user ?: $this->createUser();
+        Sanctum::actingAs($user);
 
-        return $todo;
+        return $user;
     }
 
-    public function createTask($args = [])
+    public function createTodo($override = [])
     {
-        return Task::factory()->create($args);
+        return create(TodoList::class, $override);
+    }
+
+    public function createTask($override = [])
+    {
+        return create(Task::class, $override);
+    }
+
+    // register a new user
+    public function createUser($override = [])
+    {
+        return create(User::class, $override);
     }
 }

@@ -5,7 +5,7 @@ Todo:
   Requirements:
     ✔ •	The API should allow users to create, view, edit, and delete to-do lists.
     ✔ •	Each to-do list should have a name and a list of tasks associated with it.
-    •	Users should be able to add, view, edit, and delete tasks within each to-do list.
+    ✔ •	Users should be able to add, view, edit, and delete tasks within each to-do list.
     •	The application should be designed and built following best practices and design patterns.
     •	The application should be well-documented and testable.
     •	Use of version control systems such as Git is mandatory.

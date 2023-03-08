@@ -25,7 +25,6 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'title' => ['required'],
-            'todo_list_id' => ['required']
         ];
     }
 }

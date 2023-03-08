@@ -1,11 +1,22 @@
 <?php
 
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\TodoListController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TodoListController;
 
-Route::apiResource('todo-list', TodoListController::class);
+// public routes
+Route::post('/register', [UserController::class, 'register'])
+    ->name('user.register');
+Route::post('/login', [LoginController::class, 'login'])
+    ->name('user.login');
 
-Route::apiResource('todo-list.task', TaskController::class)
-    ->except('show')
-    ->shallow();
+// protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('todo-list', TodoListController::class);
+
+    Route::apiResource('todo-list.task', TaskController::class)
+        ->except('show')
+        ->shallow();
+});

@@ -4,14 +4,19 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Task;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TaskTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_fetch_tasks_of_a_todo_list()
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->signIn();
+    }
+
+    public function test_an_authenticated_user_fetch_task_of_a_todo_list()
     {
         // create todo list
         $todo = $this->createTodo();
@@ -26,7 +31,7 @@ class TaskTest extends TestCase
         $this->assertEquals($response[0]['todo_list_id'], $todo->id);
     }
 
-    public function test_user_can_store_a_task_for_a_todo_list()
+    public function test_an_authenticated_user_can_create_a_task_for_a_todo_list()
     {
         $todo = $this->createTodo();
         $task = Task::factory()->make();
@@ -42,7 +47,7 @@ class TaskTest extends TestCase
         ]);
     }
 
-    public function test_user_can_update_a_task_of_a_todo_list()
+    public function test_an_authenticated_user_can_update_task()
     {
         $task = $this->createTask();
         $updateTask = [
@@ -55,7 +60,7 @@ class TaskTest extends TestCase
         $this->assertDatabaseHas('tasks', ['title' => 'Task updated']);
     }
 
-    public function test_user_can_delete_a_task_of_a_todo_list()
+    public function test_an_authenticated_user_can_delete_task()
     {
         $task = $this->createTask();
 

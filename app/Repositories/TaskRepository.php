@@ -14,9 +14,10 @@ class TaskRepository implements TaskRepositoryInterface
     {
         return $todoList->tasks()->create($task);
     }
-    public function updateTask(array $newtask, $task): bool
+    public function updateTask(array $newtask, $task): object
     {
-        return $task->update($newtask);
+        $task->update($newtask);
+        return $task;
     }
     public function deleteTask($task): bool
     {

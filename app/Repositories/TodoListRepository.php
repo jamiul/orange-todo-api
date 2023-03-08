@@ -21,9 +21,10 @@ class TodoListRepository implements TodoListRepositoryInterface
     {
         return TodoList::create($todoList);
     }
-    public function updateTodoList($todoListId, array $newTodoList)
+    public function updateTodoList($todoList, array $newTodoList): object
     {
-        return $todoListId->update($newTodoList);
+        $todoList->update($newTodoList);
+        return $todoList;
     }
     public function deleteTodoList($todoListId)
     {

@@ -15,10 +15,13 @@ class TodoListTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->todo = $this->createTodo();
+
+        // Given we have sign in user
+        $this->signIn();
+        $this->todo = $this->createTodo(['name' => 'My Todo']);
     }
 
-    public function test_user_can_fetch_todo_list()
+    public function test_an_authenticated_user_can_fetch_todo_list()
     {
         $response = $this->getJson(
             route('todo-list.index')
@@ -30,7 +33,7 @@ class TodoListTest extends TestCase
         );
     }
 
-    public function test_user_can_fetch_single_todo_list()
+    public function test_an_authenticated_user_can_fetch_single_todo_list()
     {
         $response = $this->getJson(
             route('todo-list.show', $this->todo->id)
@@ -44,7 +47,7 @@ class TodoListTest extends TestCase
         );
     }
 
-    public function test_user_can_store_new_todo()
+    public function test_an_authenticated_user_can_create_new_todo()
     {
         $todo = TodoList::factory()->make();
 
@@ -68,7 +71,7 @@ class TodoListTest extends TestCase
             ->assertJsonValidationErrorFor('name');
     }
 
-    public function test_user_may_delete_todo()
+    public function test_an_authenticated_user_can_delete_todo()
     {
         $this->deleteJson(route('todo-list.destroy', $this->todo->id))
             ->assertNoContent();
@@ -76,7 +79,7 @@ class TodoListTest extends TestCase
         $this->assertDatabaseMissing('todo_lists', ['name' => $this->todo->name]);
     }
 
-    public function test_user_can_update_todo()
+    public function test_an_authenticated_user_can_update_todo()
     {
         $this->patchJson(route('todo-list.update', $this->todo->id), ['name' => 'My updated todo list'])
             ->assertOk();
@@ -87,7 +90,7 @@ class TodoListTest extends TestCase
         ]);
     }
 
-    public function test_todo_name_field_is_required_while_updating()
+    public function test_name_field_is_required_while_updating_the_todo()
     {
         $this->withExceptionHandling();
 

@@ -35,7 +35,7 @@ class TodoListController extends Controller
      * @param  \App\Http\Requests\StoreTodoListRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTodoListRequest $request)
+    public function store(StoreTodoListRequest $request): object
     {
         $input = $request->all();
         $todo = $this->todoListRepository->createTodoList($input);

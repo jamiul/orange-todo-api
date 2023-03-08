@@ -53,12 +53,13 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task): bool
+    public function update(UpdateTaskRequest $request, Task $task): JsonResponse
     {
         $data = $request->all();
-
-        return $this->taskRepository
+        $task = $this->taskRepository
             ->updateTask($data, $task);
+
+        return response()->json($task);
     }
 
     /**
